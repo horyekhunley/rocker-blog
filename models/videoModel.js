@@ -15,8 +15,8 @@ const videoSchema = new mongoose.Schema(
       default: 0,
 		},
     title:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Story'
+      type: String,
+      required: true
     }
 	
 	},
