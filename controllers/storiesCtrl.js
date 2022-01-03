@@ -1,5 +1,6 @@
 const Story = require("../models/storyModel");
 const paginate = require("express-paginate");
+const Comment = require("../models/commentModel");
 
 const addOne = async (req, res) => {
 	try {
@@ -88,8 +89,54 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res) => {
 	try {
-		const item = await Story.findById(req.params.id);
+		let item = await Story.findByIdAndUpdate(req.params.id, {
+			$inc: { viewsCount: 1 },
+		}).populate("category", "title");
 		if (item) {
+			item.comments = await Comment.find({ story: item._id });
+			return res.status(200).json(item);
+		}
+		return res.status(404).json({
+			message: "Item not found",
+			success: false,
+		});
+	} catch (err) {
+		return res.status(500).json({
+			message: err.message,
+			success: false,
+		});
+	}
+};
+const getTopStories = async (req, res) => {
+	try {
+		let result = await Story.find({})
+			.populate("category", "title")
+			.sort({ viewsCount: -1 })
+			.limit(3)
+			.lean()
+			.exec();
+
+		return res.status(201).json({
+			data: result,
+		});
+	} catch (err) {
+		return res.status(500).json({
+			message: err.message,
+			success: false,
+		});
+	}
+};
+
+const getOneBySlug = async (req, res) => {
+	try {
+		let item = await Story.findOneAndUpdate(
+			{ slug: req.params.slug },
+			{
+				$inc: { viewsCount: 1 },
+			}
+		).populate("category", "title");
+		if (item) {
+			item.comments = await Comment.find({ story: item._id });
 			return res.status(200).json(item);
 		}
 		return res.status(404).json({
@@ -104,6 +151,19 @@ const getOne = async (req, res) => {
 	}
 };
 
+const generateSlug = (title) => {
+	const slugText = title
+		.toString()
+		.trim()
+		.toLowerCase()
+		.replace(/\s+/g, "-")
+		.replace(/[^\w\-]+/g, "")
+		.replace(/\-\-+/g, "-")
+		.replace(/^-+/, "")
+		.replace(/-+$/, "");
+
+	return slugText;
+};
 module.exports = {
 	addOne,
 	removeOne,
