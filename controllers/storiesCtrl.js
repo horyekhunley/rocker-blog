@@ -170,4 +170,7 @@ module.exports = {
 	updateOne,
 	getAll,
 	getOne,
+  getTopStories,
+  getOneBySlug,
+  generateSlug,
 };
