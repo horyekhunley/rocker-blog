@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { ensureAuthenticated, ensureAuthorized } = require("../middleware/auth-middleware");
-const {validationRules, validate} = require("../validations/video-validator");
+const { ensureAuthenticated, ensureAuthorized } = require("../middleware/authMiddleware");
+const {validationRules, validate} = require("../validation/videoValidator");
 const { addOne, removeOne, updateOne, getAll, getOne, getTopVideos } = require("../controllers/videosCtrl");
 
 router.get("/videos", async (req, res) => {  
@@ -15,7 +15,7 @@ router.get("/videos/top",  async (req, res) => {
     await getTopVideos(req, res);
   });
 
-router.post("/videos", ensureAuthenticated, ensureAuthorized(["admin"]), validationRules(), validate, async (req, res) => {    
+router.post("/videos", ensureAuthenticated, ensureAuthorized(["admin"]), async (req, res) => {    
     /*  #swagger.tags = ['Posts']
         #swagger.security = [{
         "Authorization": []
@@ -28,7 +28,7 @@ router.post("/videos", ensureAuthenticated, ensureAuthorized(["admin"]), validat
     await addOne(req, res);
 });
 
-router.put("/videos/:id", ensureAuthenticated, ensureAuthorized(["admin"]), validationRules(), validate, async (req, res) => {    
+router.put("/videos/:id", ensureAuthenticated, ensureAuthorized(["admin"]), async (req, res) => {    
     /*  #swagger.tags = ['Posts']
         #swagger.security = [{
         "Authorization": []

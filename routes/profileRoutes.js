@@ -1,7 +1,7 @@
-const router = require("express").Router();
-const { ensureAuthenticated } = require("../middleware/authMiddleware");
-const {validationRules, validate }  = require("../validations/update-user-validator");
-const { getOne, updateOne } = require("../controllers/profilesCtrl");
+const router = require("express").Router()
+const { ensureAuthenticated } = require("../middleware/authMiddleware")
+const {validationRules, validate }  = require("../validation/updateUserValidatorr")
+const { getOne, updateOne } = require("../controllers/profileCtrl")
 
 
 router.get("/profile", ensureAuthenticated, async (req, res) => {    

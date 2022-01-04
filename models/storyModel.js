@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 const uniqueValidator = require('mongoose-unique-validator')
 
-const storySchema = new mongoose.Schema(
+const storySchema = new Schema(
 	{
 		title: {
 			type: String,
@@ -25,11 +25,11 @@ const storySchema = new mongoose.Schema(
       default: 0,
 		},
 		comments: [{
-			type: mongoose.Schema.Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			ref: 'Comments',
 		}],
     category: {
-			type: mongoose.Schema.Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			ref: 'Category',
 		},
 	
@@ -39,4 +39,4 @@ const storySchema = new mongoose.Schema(
 
 storySchema.plugin(uniqueValidator)
 
-module.exports = mongoose.model('Category', storySchema)
+module.exports = model('Story', storySchema)

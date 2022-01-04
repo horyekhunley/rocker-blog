@@ -1,10 +1,8 @@
-const express = require("express")
-const {validationRules, validate} = require("../validations/userValidator");
+const router = require("express").Router();
+const {validationRules, validate} = require("../validation/userValidator");
 const { login, register, verify, forgotPassword, resetPassword, changePassword } = require("../controllers/authCtrl");
-const { ensureAuthenticated } = require("../middleware/auth-middleware");
-const { validationRules: passwordValidationRules, validate: passwordValidate } = require("../validations/changePasswordValidator");
-
-const router = express.Router();
+const { ensureAuthenticated } = require("../middleware/authMiddleware");
+const { validationRules: passwordValidationRules, validate: passwordValidate } = require("../validation/changePasswordValidator");
 
 router.post('/login', async (req, res) => {
     /*  #swagger.tags = ['Auth']

@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const path = require("path");
 const multer = require("multer");
-const { ensureAuthenticated, ensureAuthorized } = require("../middleware/auth-middleware");
-const {validationRules, validate} = require("../validations/storyValidator");
+const { ensureAuthenticated, ensureAuthorized } = require("../middleware/authMiddleware");
+const {validationRules, validate} = require("../validation/storyValidator");
 const { addOne, removeOne, updateOne, getAll, getOne, getOneBySlug, getTopStories} = require("../controllers/storiesCtrl");
 const PATH = "../public/";
 
@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
       cb(null, path.join(__dirname, PATH));
     },
     filename: (req, file, cb) => {
-      const fileName = Date.now() + path.extname(file.originalname);
+      const fileName = Date.now() + path.extname(file.originalname)
       req.body.imageUrl = fileName;
       cb(null, fileName);
     },
@@ -37,7 +37,7 @@ router.post("/stories", ensureAuthenticated, ensureAuthorized(["admin"]),
   upload.any("files")
 );
 
-router.post("/stories", ensureAuthenticated, ensureAuthorized(["admin"]), validationRules(), validate, async (req, res) => {    
+router.post("/stories", ensureAuthenticated, ensureAuthorized(["admin"]), async (req, res) => {    
     /*  #swagger.tags = ['Posts']
         #swagger.consumes = ['multipart/form-data']
         #swagger.security = [{
@@ -70,7 +70,7 @@ router.post("/stories", ensureAuthenticated, ensureAuthorized(["admin"]), valida
     await addOne(req, res);
 });
 
-router.put("/stories/:id", ensureAuthenticated, ensureAuthorized(["admin"]), validationRules(), validate, async (req, res) => {    
+router.put("/stories/:id", ensureAuthenticated, ensureAuthorized(["admin"]), async (req, res) => {    
     /*  #swagger.tags = ['Posts']
         #swagger.security = [{
         "Authorization": []

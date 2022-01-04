@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { ensureAuthenticated } = require("../middleware/authMiddleware");
-const {validationRules, validate }  = require("../validations/comment-validator");
-const { addOne, removeOne } = require("../controllers/commentsCtrl");
+const {validationRules, validate }  = require("../validation/commentValidator");
+const { addOne, removeOne } = require("../controllers/commentsCtrl")
 
 
 router.post("/comments", ensureAuthenticated, validationRules(), validate, async (req, res) => {    

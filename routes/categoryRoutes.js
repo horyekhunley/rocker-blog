@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { ensureAuthenticated, ensureAuthorized } = require("../middleware/authMiddleware");
-const {validationRules, validate} = require("../validations/categoryValidator");
-const { addOne, removeOne, updateOne, getAll, getOne } = require("../controllers/categoriesCtrl");
+const {validationRules, validate} = require("../validation/categoryValidator");
+const { addOne, removeOne, updateOne, getAll, getOne } = require("../controllers/categoriesCtrl")
 
 router.get("/categories", async (req, res) => {  
     // #swagger.tags = ['Posts']

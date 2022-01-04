@@ -1,8 +1,6 @@
-const express = require("express")
+const router = require("express").Router();
 const { ensureAuthenticated, ensureAuthorized } = require("../middleware/authMiddleware");
 const { register } = require("../controllers/authCtrl");
-
-const router = express.Router();
 
 const { getAll, getOne } = require("../controllers/adminCtrl");
 
@@ -32,7 +30,7 @@ router.get("/seed", async(req, res) => {
     const admin = {
         name: "Administrator",
         email: "admin@mahbubbello.com",
-        password: "Password@123"
+        password: "Password123#"
     };
 
     await register(admin, "admin", res);
