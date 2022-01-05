@@ -3,21 +3,25 @@ const paginate = require("express-paginate");
 const Comment = require("../models/commentModel");
 
 const addOne = async (req, res) => {
-	try {
-		const newRecord = new Story({
+	const newRecord = new Story({
 			...req.body,
 			createdBy: req.user._id,
-		});
-		await newRecord.save();
-		return res.status(201).json({
-			message: "Item successfully created",
-			success: true,
-		});
-	} catch (err) {
-		return res.status(500).json({
-			message: err.message,
-			success: false,
-		});
+	});
+	
+	try {  
+			if(!newRecord.slug) {
+					newRecord.slug = generateSlug(newRecord.title);
+			}      
+			await newRecord.save();
+			return res.status(201).json({
+					message: "Item successfully created",
+					success: true
+			});
+	} catch(err) {
+			return res.status(500).json({
+					message: err.message,
+					success: false,
+			});
 	}
 };
 
@@ -42,18 +46,20 @@ const removeOne = async (req, res) => {
 	}
 };
 
-const updateOne = async (req, res) => {
+const updateOne = async(req, res) => {
 	try {
-		await Story.findByIdAndUpdate(req.params.id, req.body);
-		return res.status(201).json({
-			message: "Item successfully updated",
-			success: true,
-		});
-	} catch (err) {
-		return res.status(500).json({
-			message: err.message,
-			success: false,
-		});
+			let story = req.body;
+			story.slug = generateSlug(story.title);
+			await Story.findByIdAndUpdate(req.params.id, story);
+			return res.status(201).json({
+					message: "Item successfully updated",
+					success: true,
+			});
+	} catch(err) {
+			return res.status(500).json({
+					message: err.message,
+					success: false,
+			});
 	}
 };
 

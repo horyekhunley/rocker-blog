@@ -5,6 +5,8 @@ const ejs = require('ejs')
 const paginate = require('express-paginate')
 const passport = require('passport')
 const mongoose = require('mongoose')
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 
 const app = express()
 const router = require('./routes/index')
@@ -26,6 +28,7 @@ require('./middleware/passportMiddleware')(passport)
 app.use(paginate.middleware(process.env.LIMIT, process.env.MAX_LIMIT))
 
 app.use(router)
+app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 const port = process.env.PORT || 3000
 

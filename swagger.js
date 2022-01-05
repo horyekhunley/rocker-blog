@@ -6,7 +6,7 @@ const doc = {
         title: "Rocky Blog API",
         description: "API for our Blog website</b> using NodeJS."
     },
-    host: "localhost:3000",
+    host: "localhost:5000",
     basePath: "/",
     schemes: ["http", "https"],
     consumes: ["application/json"],
@@ -89,5 +89,5 @@ const outputFile = "./swagger_output.json";
 const endpointFiles = ["./routes/index.js"];
 
 swaggerAutogen(outputFile, endpointFiles, doc).then(() => {
-    require("./index");
+    require("./app");
 });
