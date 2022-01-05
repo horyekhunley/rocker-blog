@@ -40,7 +40,7 @@ const doc = {
     },
     definitions: {
         LoginModel: {
-            $email: "admin@markscodingspot.com",
+            $email: "admin@mahbubbello.com",
             $password: "Password123#",            
         },
         RegisterModel: {
@@ -75,10 +75,10 @@ const doc = {
             $newPassword: "Password789#",
         }, 
         ForgotPassWordModel: {
-            $email: "coommark@gmail.com",
+            $email: "mahbubbello@gmail.com",
         },
         ResetPasswordModel: {
-            $email: "coommark@gmail.com",
+            $email: "mahbubbello@gmail.com",
             $code: 999999,
             $newPassword: "Password789#",
         }

@@ -6,7 +6,8 @@
   "author": "Mahbub Bello <mahbubbello@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "start-gendoc": "nodemon swagger.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
