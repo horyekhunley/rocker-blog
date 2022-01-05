@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const crypto = require("crypto");
+const { welcomeSender, forgotPasswordSender } = require('../mailers/senders')
 
 const register = async (data, role, res) => {
 	try {
@@ -21,7 +22,8 @@ const register = async (data, role, res) => {
 			password: hashedPassword,
 			role,
 		});
-		await newUser.save();
+		await newUser.save()
+		welcomeSender(newUser.email, newUser.name, newUser.verificationCode)
 		return res
 			.status(201)
 			.json({ message: "New user created successfully", success: true });
@@ -125,6 +127,7 @@ const forgotPassword = async (data, res) => {
 		const passwordResetCode = await bcrypt.hash(code.toString(), 16);
 		await user.update({ passwordResetCode: passwordResetCode });
 		forgotPasswordSender(user.email, user.name, code);
+		forgotPasswordSender(user.email, user.name, code)
 		return res.status(404).json({
 			message: "Verication code sent to your email",
 			success: true,

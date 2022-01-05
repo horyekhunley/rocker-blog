@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
 		imageUrl: {
 			type: String,
 			required: true,
+			default: 'no-image.png'
 		},
 		role: {
 			type: String,
